@@ -1,4 +1,4 @@
-package lesson1;
+package space.harbour.lesson1;
 
 import java.lang.System;
 

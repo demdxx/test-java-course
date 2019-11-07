@@ -1,4 +1,5 @@
 language: java
+sudo: false # faster builds
 jdk:
   - oraclejdk11
-script: ant main
+script: mvn clean compile test
