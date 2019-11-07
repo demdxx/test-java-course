@@ -3,7 +3,7 @@ package space.harbour.lesson3;
 import java.util.List;
 import java.util.Arrays;
 
-import MixIterator;
+import space.harbour.lesson3.MixIterator;
 
 public class Main {
   protected static class Integers {
