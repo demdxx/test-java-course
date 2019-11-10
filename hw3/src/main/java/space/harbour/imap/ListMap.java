@@ -11,13 +11,14 @@
 
 package space.harbour.imap;
 
+import java.lang.Iterable;
 import java.util.*;
 
 // ListMap implementation of close-addressing map interface
 // @NOTE Map interface uses Set<> for storing of keys but the task requires to implement
 // the custom hashSet, so it makes using of Map<> interface redundant and even more difficult
 // ! Not thread-safe implementation
-public class ListMap<K extends Comparable<K>, V> implements Map<K, V> {
+public class ListMap<K extends Comparable<K>, V> implements Map<K, V>, Iterable<Map.Entry<K, V>> {
 
   static class Node<K, V> implements Map.Entry<K, V> {
     final K key;
@@ -241,9 +242,7 @@ public class ListMap<K extends Comparable<K>, V> implements Map<K, V> {
    */
   public void putAll(Map<? extends K, ? extends V> m) {
     for (var p : m.entrySet()) {
-      if (put(new Node<>(p.getKey(), p.getValue())) == null) {
-        throw new Error("can't add all elements into the map");
-      }
+      put(new Node<>(p.getKey(), p.getValue()));
     }
   }
 
