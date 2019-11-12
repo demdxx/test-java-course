@@ -76,7 +76,7 @@ public class Crawler {
   public static URL prepareURL(String ustr) throws MalformedURLException {
     if (!ustr.startsWith("http://") && !ustr.startsWith("https://")) {
       if (ustr.startsWith("//")) {
-        return new URL("http:" + ustr);
+        return new URL("https:" + ustr);
       }
       return new URL("http://" + ustr);
     }
