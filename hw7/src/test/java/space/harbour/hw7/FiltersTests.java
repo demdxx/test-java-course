@@ -39,14 +39,14 @@ public class FiltersTests {
   @Test
   public void filterGenreTest() {
     var movies = Main.generateMovies(100);
-    var list = movies.stream()
+    var stream = movies.stream()
       .sorted(Main.movieComporatorYear())
-      .filter(Main.movieFilterGenre("Comedy"))
-      .toArray(Movie[]::new);
+      .filter(Main.movieFilterGenre("Comedy"));
 
-    for (var m: list) {
-      Assert.assertEquals("genre filter", "Comedy", m.getGenre());
-    }
+    Assert.assertTrue(
+      "genre filter",
+      stream.allMatch(m -> m.getGenre().equals("Comedy"))
+    );
   }
 
   @Test
