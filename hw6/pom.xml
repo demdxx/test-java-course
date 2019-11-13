@@ -9,9 +9,9 @@
     <artifactId>multiple</artifactId>
     <version>1.0</version>
   </parent>
-  <artifactId>hw5</artifactId>
+  <artifactId>hw6</artifactId>
   <packaging>jar</packaging>
-  <name>HW5</name>
+  <name>HW6</name>
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
