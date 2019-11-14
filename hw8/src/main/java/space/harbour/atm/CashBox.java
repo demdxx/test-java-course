@@ -109,6 +109,7 @@ public class CashBox implements CashContainer {
 
     // If anought money in the CashBox
     if (amount == count * denomination) {
+      banknoteCount -= count;
       return new CashBlock(this, count, null);
     }
 
@@ -121,6 +122,7 @@ public class CashBox implements CashContainer {
 
         try {
           var state = nextCashBox.withdrowMoney(tryAmount, currency);
+          banknoteCount -= count;
           return new CashBlock(this, count, state);
         } catch (LackOfMoneyException e) {
           if (logger != null)

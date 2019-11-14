@@ -41,6 +41,8 @@ public class CashBlock {
   public synchronized void rollback() {
     source.topUp(count);
     count = 0;
+    if (nextBlock != null)
+      nextBlock.rollback();
   }
 
   @Override

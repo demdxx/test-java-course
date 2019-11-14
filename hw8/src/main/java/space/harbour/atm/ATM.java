@@ -37,6 +37,9 @@ public class ATM {
 
   public CashBlock withdrowMoney(int amount, Currency currency) throws OutOfTheCashException, LackOfMoneyException {
     logger.INFO("Withdrow money %d %s", amount, currency);
+    if (sumOfMoney(currency) == 0) {
+      throw new OutOfTheCashException("ATM is empty");
+    }
     return cashContainer.withdrowMoney(amount, currency);
   }
 }
