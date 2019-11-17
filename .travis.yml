@@ -2,4 +2,11 @@ language: java
 sudo: false # faster builds
 jdk:
   - oraclejdk11
+services:
+  - mongodb
+env:
+  global:
+    - MONGODB_HOSTNAME=127.0.0.1
+    - MONGODB_PORT=27017
+    - MONGODB_DB=test
 script: mvn clean compile test

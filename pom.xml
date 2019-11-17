@@ -20,12 +20,33 @@
     <module>hw7</module>
     <module>hw8</module>
     <module>hw9</module>
+    <module>hw10</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <!-- DEFAULT ENVIRONMENT -->
+    <env>dev</env>
   </properties>
+  <!-- profiles -->
+  <profiles>
+    <profile>
+      <id>dev</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <env>dev</env>
+      </properties>
+    </profile>
+    <profile>
+      <id>test</id>
+      <properties>
+        <env>test</env>
+      </properties>
+    </profile>
+  </profiles>
 
   <build>
     <directory>${project.basedir}/target</directory>
@@ -35,9 +56,13 @@
     <sourceDirectory>${project.basedir}/src/main/java</sourceDirectory>
     <scriptSourceDirectory>${project.basedir}/src/main/scripts</scriptSourceDirectory>
     <testSourceDirectory>${project.basedir}/src/test/java</testSourceDirectory>
+    <!-- <filters>
+      <filter>${project.basedir}/src/main/resources/${env}-application.properties</filter>
+    </filters> -->
     <resources>
       <resource>
         <directory>${project.basedir}/src/main/resources</directory>
+        <!-- <filtering>true</filtering> -->
       </resource>
     </resources>
     <testResources>
