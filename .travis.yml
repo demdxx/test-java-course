@@ -16,6 +16,12 @@ matrix:
       jdk: oraclejdk8
       sudo: false
 
+      env:
+        global:
+          # - ABI=x86_64
+          - ADB_INSTALL_TIMEOUT=8
+          - ANDROID_HOME=${HOME}/android-sdk
+
       android:
         components:
           - platform-tools
