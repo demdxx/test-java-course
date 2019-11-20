@@ -16,11 +16,11 @@ matrix:
       jdk: oraclejdk8
       sudo: false
 
-      env:
-        global:
-          # - ABI=x86_64
-          - ADB_INSTALL_TIMEOUT=8
-          - ANDROID_HOME=${HOME}/android-sdk
+      # env:
+      #   global:
+      #     - ABI=x86_64
+      #     - ADB_INSTALL_TIMEOUT=8
+      #     - ANDROID_HOME=${HOME}/android-sdk
 
       android:
         components:
@@ -51,6 +51,4 @@ matrix:
         # - android-wait-for-emulator
         # - adb shell input keyevent 82 &
 
-      script:
-        - cd ./hw12 && ./gradlew build
-        # - ./gradlew connectedAndroidTest
+      script: cd ./hw12 && ./gradlew build
