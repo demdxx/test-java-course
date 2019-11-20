@@ -21,16 +21,16 @@ matrix:
           - platform-tools
           - tools
           - build-tools-29.0.1
-          - android-28
           - android-29
-          - sys-img-armeabi-v7a-android-29
           - extra-android-m2repository
 
       before_script:
         # Create and start emulator
-        - echo no | android create avd --force -n test -t android-29 --abi armeabi-v7a
-        - emulator -avd test -no-skin -no-audio -no-window &
-        - android-wait-for-emulator
-        - adb shell input keyevent 82 &
+        # - echo no | android create avd --force -n test -t android-29 --abi armeabi-v7a
+        # - emulator -avd test -no-skin -no-audio -no-window &
+        # - android-wait-for-emulator
+        # - adb shell input keyevent 82 &
+        - chmod +x ./hw12/gradlew
 
-      script: cd ./hw12 && ./gradlew connectedAndroidTest
+      script: cd ./hw12 && ./gradlew build
+      # script: cd ./hw12 && ./gradlew connectedAndroidTest
