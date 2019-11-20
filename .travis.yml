@@ -39,7 +39,7 @@ matrix:
       before_script:
         # Create and start emulator
         - cd ./hw12
-        - gradle wrapper
+        # - gradle wrapper
         - chmod +x ./gradlew
         - echo no | android create avd --force -n test -t android-29 --abi armeabi-v7a
         - emulator -avd test -no-skin -no-audio -no-window &
