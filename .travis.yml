@@ -44,14 +44,13 @@ matrix:
 
       before_script:
         # Create and start emulator
-        - cd ./hw12
         # - gradle wrapper
-        - chmod +x ./gradlew
+        - chmod +x ./hw12/gradlew
         # - echo no | android create avd --force -n test -t android-29 --abi armeabi-v7a
         # - emulator -avd test -no-audio -no-window &
         # - android-wait-for-emulator
         # - adb shell input keyevent 82 &
 
       script:
-        - ./gradlew build
+        - cd ./hw12 && ./gradlew build
         # - ./gradlew connectedAndroidTest
