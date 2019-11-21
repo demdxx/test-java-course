@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        new DownloadFileFromURL().execute("https://api.myjson.com/bins/nfvfi");
+        new DownloadFileFromURL().execute("http://10.0.2.2:4567/api/movies");
     }
 
     @Override
@@ -75,13 +75,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 try {
                     JSONObject obj = (JSONObject) arr.get(i);
                     Movie mv = new Movie(
-                            obj.getString("Title"),
-                            Integer.valueOf(obj.getInt("Year")),
-                            Integer.valueOf(obj.getInt("Runtime")),
-                            obj.getString("Released"),
-                            obj.getString("Plot"),
-                            obj.getString("Awards"),
-                            obj.getString("Poster")
+                            obj.has("title")    ? obj.getString("title") : "",
+                            obj.has("year")     ? toInteger(obj.get("year")) : 0,
+                            obj.has("runtime")  ? toInteger(obj.get("runtime")) : 0,
+                            obj.has("released") ? obj.getString("released") : "",
+                            obj.has("plot")     ? obj.getString("plot") : "",
+                            obj.has("awards")   ? obj.getString("awards") : "",
+                            obj.has("poster")   ? obj.getString("poster") : ""
                     );
                     list.add(mv);
                 } catch (JSONException e) {
@@ -95,5 +95,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         protected void onPostExecute(Movie[] movies) {
             mAdapter.updateData(movies);
         }
+    }
+
+    private static Integer toInteger(Object o) {
+        if (o == null) return 0;
+        return Integer.valueOf(o.toString());
     }
 }

@@ -34,7 +34,8 @@ public class JSONParser {
 
         // try parse the string to a JSON object
         try {
-            jObj = new JSONArray(json);
+            JSONObject obj = new JSONObject(json);
+            jObj = obj.getJSONArray("response");
         } catch (JSONException e) {
             Log.e("JSON Parser", "Error parsing data " + e.toString());
         }
