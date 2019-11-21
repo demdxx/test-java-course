@@ -15,9 +15,8 @@ message Argument {
 }
 
 message Command {
-  string            name = 1;
-  repeated Argument args = 2;
-  bytes             data = 3;
+  string name = 1;
+  string args = 2;
 }
 
 message Response {
@@ -26,5 +25,6 @@ message Response {
 }
 
 service FileService {
+  // Execute the file server command
   rpc execute(Command) returns (Response) {}
 }

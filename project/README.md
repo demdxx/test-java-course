@@ -11,6 +11,7 @@ The second one is CLI application with client connect to the server.
  * `cat` the file
  * `cd` change working directory
  * `pwd` get current directory
+ * `touch` change file update time or create the new empty file
 
 ## Protocol description
 
