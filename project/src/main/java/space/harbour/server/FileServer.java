@@ -1,7 +1,9 @@
 package space.harbour.server;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -50,9 +52,10 @@ public class FileServer extends FileServiceGrpc.FileServiceImplBase {
   protected String getPath(String directory) {
     if (directory == null || directory.equals("."))
       return pwd;
-    if (!directory.startsWith("/")) {
+    if (directory.equals("~"))
+      return chroot;
+    if (!directory.startsWith("/"))
       directory = pwd + "/" + directory;
-    }
     return Paths.get(directory).toAbsolutePath().normalize().toString();
   }
 
@@ -80,6 +83,8 @@ public class FileServer extends FileServiceGrpc.FileServiceImplBase {
       executeMkdir(request, responseObserver);
     } else if (request.getName().equals("rm")) {
       executeRm(request, responseObserver);
+    } else if (request.getName().equals("cat")) {
+      executeCat(request, responseObserver);
     } else if (request.getName().equals("help")) {
       printHelp(null, responseObserver);
     } else {
@@ -153,6 +158,40 @@ public class FileServer extends FileServiceGrpc.FileServiceImplBase {
     file.setLastModified(timestamp);
 
     renderResponse(Status.OK, "", responseObserver);
+  }
+
+  protected void executeCat(Server.Command request, StreamObserver<Server.Response> responseObserver) {
+    var filename = request.getArgs().strip();
+    if (filename.length() == 0) {
+      renderResponse(Status.ERROR, "invalid argument", responseObserver);
+      return;
+    }
+    var target = getPath(filename);
+    if (!checkChroot(target)) {
+      renderResponse(Status.DENY, "no permissions", responseObserver);
+      return;
+    }
+    var file = new File(target);
+
+    // Create new file
+    if (!file.exists()) {
+      renderResponse(Status.UNDEFINED, "file does not exists", responseObserver);
+      return;
+    }
+
+    var data = new StringBuilder();
+    try (var br = new BufferedReader(new FileReader(file))) {
+      String st;
+      while ((st = br.readLine()) != null) {
+        data.append(st + "\n");
+      }
+    } catch (IOException e) {
+      e.printStackTrace();
+      renderResponse(Status.ERROR, e.getMessage(), responseObserver);
+      return;
+    }
+
+    renderResponse(Status.OK, data.toString(), responseObserver);
   }
 
   protected void executeMkdir(Server.Command request, StreamObserver<Server.Response> responseObserver) {
@@ -236,8 +275,13 @@ public class FileServer extends FileServiceGrpc.FileServiceImplBase {
     }
     var file = new File(target);
 
+    if (!file.exists()) {
+      renderResponse(Status.UNDEFINED, "file or directory does not exists", responseObserver);
+      return;
+    }
+
     // Create new file
-    if (file.isFile()) {
+    if (file.isFile() || Files.isSymbolicLink(file.toPath())) {
       if (file.delete()) {
         renderResponse(Status.OK, "successfully deleted", responseObserver);
       } else {
